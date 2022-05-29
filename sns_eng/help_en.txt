@@ -1,0 +1,15 @@
+ _______________________________________
+|SNS-DOS 0.8.0 by ArtemMine37     |_| X |
+|---------------------------------------|
+|help, ?, cmds - All SNS-DOS commands   |
+|exit, quit - Exit from SNS-DOS         |
+|clear, cls - Clear console screen      |
+|about, snsver, ver - About SNS-DOS     |
+|cmd - Command prompt                   |
+|taskmgr - Task Manager                 |
+|time - Data & time                     |
+|run, start - Starts file.              |
+|AppMgr - App Manager                   |
+|update - Update checker                |
+=========================================
+
