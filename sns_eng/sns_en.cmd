@@ -1,6 +1,6 @@
 @echo off & mode 90,27 & color b
 cls
-set updSnsAPI
+set updSnsAPI=True
 set ApiLibVer=2.5
 set ApiLibEnable=1
 set ApiStart=2
@@ -26,7 +26,7 @@ set ApiCompability=2
 set ApiPS2=2
 set ApiDlFile=2
 set SnsVer=0.8.0
-set SnsBuild=1624.3
+set SnsBuild=1700.4
 title SNS-DOS %SnsVer% Build %SnsBuild%
 set ApiVBS=2
 set ApiSnd=2
@@ -84,36 +84,17 @@ wscript "%cd%\SnsHelper.vbs" /StrtpSnd
 :sns-dos
 set command=
 set /p command=%name%: 
-if "%command%"=="help" (
-goto help
-)
-if "%command%"=="?" (
-goto help
-)
-if "%command%"=="cmds" (
-goto help
-)
-if "%command%"=="clear" (
-goto clear
-)
-if "%command%"=="cls" (
-goto clear
-)
-if "%command%"=="exit" (
-exit
-)
-if "%command%"=="quit" (
-exit
-)
-if "%command%"=="about" (
-goto snsver
-)
-if "%command%"=="snsver" (
-goto snsver
-)
-if "%command%"=="ver" (
-goto snsver
-)
+if "%command%"=="help" (goto help)
+if "%command%"=="?" (goto help)
+if "%command%"=="cmds" (goto help)
+if "%command%"=="clear" (goto clear)
+if "%command%"=="cls" (goto clear)
+if "%command%"=="exit" (exit)
+if "%command%"=="quit" (exit)
+if "%command%"=="about" (goto snsver)
+if "%command%"=="snsver" (goto snsver)
+if "%command%"=="ver" (goto snsver)
+if "%command%"=="ua" (goto ua)
 if "%command%"=="color" (
 echo Enter colorcode for console.
 set setColor=
@@ -144,17 +125,7 @@ if "%command%"=="appmgr" (goto AppMgr)
 if "%command%"=="appMgr" (goto AppMgr)
 if "%command%"=="Appmgr" (goto AppMgr)
 if "%command%"=="update" (
-echo Checking for updates...
-if exist UpdChk.sns (
-ren UpdChk.sns UpdChk.cmd
-echo [%date% %time%] ===========Update==========>>SNS-DOS.log
-cmd /c UpdChk.cmd
-goto sns-dos
-) else (
-echo UpdChk wasn't found.
-echo [%date% %time%] UpdChk.sns wasn't downloaded. We worried about this, but maybe it fixed, but no effect.>>SNS-DOS.log
-goto sns-dos
-)
+echo Now, SNS-DOS Update in the SNS-DOS boot file.
 goto sns-dos
 )
 if "%command%"=="reboot" (
@@ -166,12 +137,8 @@ sns_en.cmd
 echo Unknown command. Try 'help' to find required command.
 goto sns-dos
 
-rem ======================
-rem SNS-DOS AltCommands
-rem ======================
-
 :run
-echo [Run]
+echo [Run] {SnsAPI.Utility.Run} (v2)
 echo Enter directory name, file name.
 echo and SNS-DOS opens this file.
 set runapp_folder=
@@ -191,7 +158,7 @@ echo Cleared successfully!
 goto sns-dos
 
 :snsver
-echo [===============================================]
+echo [==[About SNS-DOS]=={SnsAPI.System.About}=(v1)==]
 echo SNS-DOS
 echo =Version: %SnsVer%
 echo =Build: %SnsBuild%
@@ -200,7 +167,6 @@ echo ==Version: %ApiLibVer%.%SnsBuild%
 echo ==Status: %SnsApiStatus%
 echo =Beta 2
 echo [WARNING!] Beta versions are little bit unstable!
-echo Ver. type will be moved to Advanced Info
 echo [===============================================]
 echo x - Exit from 'About System'
 echo a - Advanced Info
@@ -209,14 +175,14 @@ if "%errorlevel%"=="1" (goto sns-dos)
 if "%errorlevel%"=="2" (goto AdvSNS)
 
 :AdvSNS
-echo [===============================================]
+echo [==[About SNS-DOS]=={SnsAPI.System.About}=(v1)==]
 echo SNS-DOS
 echo =PC Architecture: %Processor_Architecture%
 echo Updates
 echo =Update ID: 0.8.0b2_en2
 echo =Installed update: SNS-DOS Beta Expirience
 echo =Is SNS-DOS updated: %updSnsAPI%
-echo Source: Updated via SNS-DOS Update
+echo Source: Installed via Github or 3rd party source.
 echo [WARNING!] Beta versions are little bit unstable!
 echo [===============================================]
 goto sns-dos
@@ -227,6 +193,8 @@ echo You can start SNS-DOS program using .sns file.
 echo Drag .sns file to sns_eng folder, & echo enter program name and this program is starts
 set ProgName=
 set /p ProgName=File: 
+echo Please, wait.
+ping 127.0.0.1>nul
 if exist %ProgName%.sns (
 ren %ProgName%.sns %ProgName%.cmd
 echo [%date% %time%] Started %ProgName%.>>SNS-DOS.log
@@ -245,3 +213,6 @@ goto sns-dos
 
 :clr
 %Windir%\System32\WindowsPowerShell\v1.0\Powershell.exe write-host -foregroundcolor %2 %1
+
+:NotUsedCommands
+rem That's useless command.
