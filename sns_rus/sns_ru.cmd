@@ -16,7 +16,7 @@ set ApiGoto=2
 set ApiType=2
 set ApiCopy=2
 set ApiMove=2
-set lastnews=Обновление SNS-DOS 0.8.0: Глобальное обновление
+set lastnews=РћР±РЅРѕРІР»РµРЅРёРµ SNS-DOS 0.8.0: Р“Р»РѕР±Р°Р»СЊРЅРѕРµ РѕР±РЅРѕРІР»РµРЅРёРµ
 set ApiFor=2
 set ApiOther=2
 set ApiAppMgr=2
@@ -25,8 +25,8 @@ set ApiCompability=2
 set ApiPS2=2
 set ApiDlFile=2
 set SnsVer=0.8.0
-set SnsBuild=1624.3
-title SNS-DOS %SnsVer%, сборка %SnsBuild%
+set SnsBuild=1700.4
+title SNS-DOS %SnsVer%, СЃР±РѕСЂРєР° %SnsBuild%
 set ApiVBS=2
 set ApiSnd=2
 set ApiColor=2
@@ -35,23 +35,23 @@ set SnsApiSupport_1.5=1
 set SnsAPI2=1
 set SnsAPI21=1
 set SnsAPI-Support=1
-set sysusr=Имя, которое установлено, занято системой.
+set sysusr=РРјСЏ, РєРѕС‚РѕСЂРѕРµ СѓСЃС‚Р°РЅРѕРІР»РµРЅРѕ, Р·Р°РЅСЏС‚Рѕ СЃРёСЃС‚РµРјРѕР№.
 :chk0
 if exist help_ru.txt (
 goto chk1
 ) else (
-echo [%date% %time%] SNS-DOS нельзя запустить без файла help_ru.txt>>SNS-DOS.log
+echo [%date% %time%] SNS-DOS РЅРµР»СЊР·СЏ Р·Р°РїСѓСЃС‚РёС‚СЊ Р±РµР· С„Р°Р№Р»Р° help_ru.txt>>SNS-DOS.log
 exit
 )
 :chk1
 if not exist SnsHelper.vbs (
-echo [%date% %time%] SNS-DOS нельзя запустить без файла SnsHelper.vbs>>SNS-DOS.log
+echo [%date% %time%] SNS-DOS РЅРµР»СЊР·СЏ Р·Р°РїСѓСЃС‚РёС‚СЊ Р±РµР· С„Р°Р№Р»Р° SnsHelper.vbs>>SNS-DOS.log
 exit
 )
 cls
 :named
 set name=
-set /p name=Введите имя: 
+set /p name=Р’РІРµРґРёС‚Рµ РёРјСЏ: 
 if "%name%"=="SNS-DOS" (
 echo %sysusr%
 goto named
@@ -68,11 +68,11 @@ if "%name%"=="System" (
 echo %sysusr%
 goto named
 )
-if "%name%"=="Система" (
+if "%name%"=="РЎРёСЃС‚РµРјР°" (
 echo %sysusr%
 goto named
 )
-if "%name%"=="Администратор" (
+if "%name%"=="РђРґРјРёРЅРёСЃС‚СЂР°С‚РѕСЂ" (
 echo %sysusr%
 goto named
 )
@@ -84,46 +84,26 @@ if "%name%"=="Admin" (
 echo %sysusr%
 goto named
 )
-call :clr "SNS-DOS Version 0.8.0" DarkRed
-echo Built 10.05.2022
+echo SNS-DOS 0.8.0
+echo Built 01.06.2022
 wscript "%cd%\SnsHelper.vbs" /StrtpSnd
 :sns-dos
 set command=
 set /p command=%name%: 
-if "%command%"=="help" (
-goto help
-)
-if "%command%"=="?" (
-goto help
-)
-if "%command%"=="cmds" (
-goto help
-)
-if "%command%"=="clear" (
-goto clear
-)
-if "%command%"=="cls" (
-goto clear
-)
-if "%command%"=="exit" (
-exit
-)
-if "%command%"=="quit" (
-exit
-)
-if "%command%"=="about" (
-goto snsver
-)
-if "%command%"=="snsver" (
-goto snsver
-)
-if "%command%"=="ver" (
-goto snsver
-)
+if "%command%"=="help" (goto help)
+if "%command%"=="?" (goto help)
+if "%command%"=="cmds" (goto help)
+if "%command%"=="clear" (goto clear)
+if "%command%"=="cls" (goto clear)
+if "%command%"=="exit" (exit)
+if "%command%"=="quit" (exit)
+if "%command%"=="about" (goto snsver)
+if "%command%"=="snsver" (goto snsver)
+if "%command%"=="ver" (goto snsver)
 if "%command%"=="color" (
-echo Выберите цвет, как в cmd.exe.
+echo Р’С‹Р±РµСЂРёС‚Рµ С†РІРµС‚, РєР°Рє РІ cmd.exe.
 set setColor=
-set /p setColor=Код цвета:
+set /p setColor=РљРѕРґ С†РІРµС‚Р°:
 color %setColor%
 goto sns-dos
 )
@@ -136,8 +116,8 @@ start taskmgr.exe
 goto sns-dos
 )
 if "%command%"=="time" (
-echo Дата: %date%
-echo Время: %time%
+echo Р”Р°С‚Р°: %date%
+echo Р’СЂРµРјСЏ: %time%
 goto sns-dos
 )
 if "%command%"=="news" (
@@ -151,26 +131,16 @@ if "%command%"=="appmgr" (goto AppMgr)
 if "%command%"=="appMgr" (goto AppMgr)
 if "%command%"=="Appmgr" (goto AppMgr)
 if "%command%"=="update" (
-echo Подготовка к обновлению...
-if exist UpdChk.sns (
-ren UpdChk.sns UpdChk.cmd
-echo [%date% %time%] ===========Update==========>>SNS-DOS.log
-cmd /c UpdChk.cmd
-goto sns-dos
-) else (
-echo Не удалось найти %ProgName%. Подробнее в SNS-DOS.log
-echo [%date% %time%] Нет файла UpdChk.sns.>>SNS-DOS.log
-goto sns-dos
-)
+echo РўРµРїРµСЂСЊ, РѕР±РЅРѕРІР»РµРЅРёСЏ РґРѕСЃС‚РїРЅС‹ СЃ С„Р°Р№Р»Р° Р·Р°РїСѓСЃРєР° SNS-DOS.
 goto sns-dos
 )
 if "%command%"=="reboot" (
-echo Перезагрузка...
+echo РџРµСЂРµР·Р°РіСЂСѓР·РєР°...
 echo.
 cls
-core1.cmd
+sns_ru.cmd
 )
-echo Неизвестная комманда.
+echo РќРµРёР·РІРµСЃС‚РЅР°СЏ РєРѕРјРјР°РЅРґР°.
 goto sns-dos
 
 rem ======================
@@ -178,13 +148,13 @@ rem SNS-DOS AltCommands
 rem ======================
 
 :run
-echo Можно запустить любую программу в определённых директории.
-echo Введите название директории,
-echo название программы и она будет открыта.
+echo [Р—Р°РїСѓСЃС‚РёС‚СЊ] {SnsAPI.Utility.Run} (v2.0.1)
+echo Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РґРёСЂРµРєС‚РѕСЂРёРё, РЅР°Р·РІР°РЅРёРµ РїСЂРѕРіСЂР°РјРјС‹ Рё
+echo РѕРЅР° Р±СѓРґРµС‚ РѕС‚РєСЂС‹С‚Р°. 
 set runapp_folder=
-set /p runapp_folder=Путь к директории программы:
+set /p runapp_folder=Р”РёСЂРµРєС‚РѕСЂРёСЏ:
 set runapp_file=
-set /p runapp_file=Название программы: 
+set /p runapp_file=РќР°Р·РІР°РЅРёРµ С„Р°Р№Р»Р°: 
 start %runapp_folder%\%runapp_file% 
 goto sns-dos
 
@@ -194,47 +164,60 @@ goto sns-dos
 
 :clear
 cls
-echo Очистка успешна!
+echo РћС‡РёСЃС‚РєР° СѓСЃРїРµС€РЅР°!
 goto sns-dos
 
 :snsver
-echo [===============================================]
+echo [=[РЎРІРµРґРµРЅРёСЏ SNS-DOS]={SnsAPI.System.About}=(v1)=]
 echo SNS-DOS
-echo =Версия: %SnsVer%
+echo =Р’РµСЂСЃРёСЏ: %SnsVer%
 echo =Build: %SnsBuild%
-echo =PC Architecture: %ProcessorArchitecture%
 echo =SnsAPI
-echo ==Версия: %ApiLibVer%.%SnsBuild%
-echo ==Статус: %SnsApiStatus%
-echo =Beta 1
-echo ==Exclusive: No; available for everyone.
-echo [WARNING!] Beta versions are little bit unstable!
+echo ==Р’РµСЂСЃРёСЏ: %ApiLibVer%.%SnsBuild%
+echo ==РЎС‚Р°С‚СѓСЃ: %SnsApiStatus%
+echo =Beta 2
+echo [Р’РќРРњРђРќРР•!] Beta versions are little bit unstable!
 echo [===============================================]
-echo x - Exit from SnsAPI.System.About
-echo a - Advanced Info
+echo x - Р’С‹Р№С‚Рё СЃ SnsAPI.System.About
+echo a - Р Р°СЃС€РёСЂРµРЅРЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ
 choice -c xa -d x -t 10 -n
 if "%errorlevel%"=="1" (goto sns-dos)
-if "%errorlevel%"=="1" (goto AdvSNS)
+if "%errorlevel%"=="2" (goto AdvSNS)
+
+:AdvSNS
+echo [=[РЎРІРµРґРµРЅРёСЏ SNS-DOS]={SnsAPI.System.About}=(v1)=]
+echo SNS-DOS
+echo =PC Architecture: %Processor_Architecture%
+echo Updates
+echo =Update ID: 0.8.0b2_2
+echo =РЈСЃС‚Р°РЅРѕРІР»РµРЅРЅРѕРµ РѕР±РЅРѕРІР»РµРЅРёРµ: SNS-DOS Beta Expirience
+echo =РћР±РЅРѕРІР»С‘РЅ Р»Рё SNS-DOS: %updSnsAPI%
+echo РСЃС‚РѕС‡РЅРёРє: РЎРєР°С‡Р°РЅРѕ СЃ GitHub РёР»Рё РґСЂСѓРіРѕРіРѕ РёСЃС‚РѕС‡РЅРёРєР°.
+echo [WARNING!] Beta versions are little bit unstable!
+echo [===============================================]
+goto sns-dos
 
 :AppMgr
 if "%SnsAppMgr%"=="1" (
-echo Вы можете запускать приложения в текущей папке.
-echo Введите название программы, и SNS-DOS откроет его.
+echo [AppMgr] {SnsAPI.API.Runtime} (v2.0)
+echo Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РїСЂРѕРіСЂР°РјРјС‹, Рё SNS-DOS РѕС‚РєСЂРѕРµС‚ РµРіРѕ.
 set ProgName=
-set /p ProgName=Название приложения: 
+set /p ProgName=РќР°Р·РІР°РЅРёРµ РїСЂРёР»РѕР¶РµРЅРёСЏ: 
+echo РџРѕРґРѕР¶РґРёС‚Рµ РЅРµРєРѕС‚РѕСЂРѕРµ РІСЂРµРјСЏ...
+ping 127.0.0.1>nul
 if exist %ProgName%.sns (
 ren %ProgName%.sns %ProgName%.cmd
-echo [%date% %time%] Запущен %ProgName%.>>SNS-DOS.log
+echo [%date% %time%] Р—Р°РїСѓС‰РµРЅ %ProgName%.>>SNS-DOS.log
 start %ProgName%.cmd
 goto sns-dos
 ) else (
-echo Не удалось найти %ProgName%. Подробнее в SNS-DOS.log
-echo [%date% %time%] Не удалось найти %ProgName%. Убедитесь, что вы поместили программу для SNS-DOS в папку с SNS-DOS.>>SNS-DOS.log
+echo РќРµ СѓРґР°Р»РѕСЃСЊ РЅР°Р№С‚Рё %ProgName%. РџРѕРґСЂРѕР±РЅРµРµ РІ SNS-DOS.log
+echo [%date% %time%] РќРµ СѓРґР°Р»РѕСЃСЊ РЅР°Р№С‚Рё %ProgName%. РЈР±РµРґРёС‚РµСЃСЊ, С‡С‚Рѕ РІС‹ РїРѕРјРµСЃС‚РёР»Рё РїСЂРѕРіСЂР°РјРјСѓ РґР»СЏ SNS-DOS РІ РїР°РїРєСѓ СЃ SNS-DOS.>>SNS-DOS.log
 goto sns-dos
 )
 goto sns-dos
 )
-echo SnsApi.AppMgr не был обнаружен.
+echo SnsApi.AppMgr РЅРµ Р±С‹Р» РѕР±РЅР°СЂСѓР¶РµРЅ.
 goto sns-dos
 
 :clr
