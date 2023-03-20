@@ -6,9 +6,11 @@ echo [%date% %time%] SNS-DOS is in init status.>>SNS-DOS.log
 echo Preparing emulation...
 if "%1"=="/Native" (goto snsboot)
 ping 127.0.0.1>nul
-echo Emulation preset: 16/64 MB RAM/ROM
-echo CPU: 300 MHz Custom Pentium CPU
-echo GPU: Custom 8MB GPU
+call cfg.bat
+echo Emulation preset: %SnsRam%/%SnsRom% RAM/ROM
+echo CPU: %SnsCpu%
+echo GPU: %UiSnsGpu% %SnsVram%
+echo SnsGraphX GPU: %UiSnsGrphXGpu% %SnsGVram%
 ping 127.0.0.1>nul
 echo [%date% %time%] Started emulator.>>SNS-DOS.log
 ping 127.0.0.1>nul
@@ -32,11 +34,13 @@ echo Starting SnsGraphics service
 ping 127.0.0.1>nul
 echo [%date% %time%] SnsDisk init.>>SNS-DOS.log
 echo           -=SnsFiles / Info=-
-echo Free space: 32768 KB of 65536 KB
-echo RAM: 53% filled
+echo Free space: 100 MB of 160 MB
+echo RAM: 65% filled
 echo CPU load: 99%
-echo GPU load: 42%
-echo SnsUI can't process 700 of 999 render methods
+echo GPU load: 69%
+echo SnsUI can't process 473 of 999 render methods (47,3 = unsuccess)
+echo GPU (SnsGraphX) load: 80%
+echo SnsUI can't process 413 of 999 render methods (41,3 = unsuccess)
 ping 127.0.0.1>nul
 echo SnsUI.RenderText is started.
 echo Connecting to emulator...
@@ -116,64 +120,25 @@ cls
 echo        -=SNS-DOS / Starting=-
 echo [Starting SnsAPI]
 echo [%date% %time%] Standard SNS-DOS boot.>>SNS-DOS.log
-set src=dsc
-set updSnsAPI=False
-rem updSnsAPI - Updated SnsAPI
-rem Don't touch this variable.
-set ApiLibVer=2.5.4
-rem SnsAPI version. Required for SNS-DOS
-set ApiLibEnable=1
-rem Disable/enable SnsAPI here.
-rem Disabled SnsAPI will skip SnsAPI initialization.
-rem Default: 1 (enabled)
-set SnsUpdInst=SNS-DOS Experience
-set SnsCoins=1
-set ApiVariables=2
-set ApiGUI=SnsUI
-set ApiSnsUI=2
-set ApiSnsDisk=2
-set ApiSnsVM=2
-set ApiSnsScripting=2
-set SnsLogger=2
-set SnsApiStatus=Enabled
-set SnsPlayer=2
-set ApiIf=2
-set ApiExOption=1
-set SnsAppMgr=1
-set ApiFunction=2
-set lastnews=SnsUI 1.0 now comes in SNS-DOS 0.8.0!
-set ApiFor=2
-set ApiOther=2
-set ApiAppMgr=2
+call cfg.bat
 ping 127.0.0.1>nul
 cls
 echo        -=SNS-DOS / Starting=-
 echo [Starting SnsCore]
-set SnsVer=0.8.0
-set SnsBuild=2000
-set SnsSubBuild=100
 title SNS-DOS %SnsVer% Build %SnsBuild%.%SnsSubBuild%
-set SnsApiSupport_1=1
-set SnsApiSupport_1.5=1
-set SnsAPI2=1
-set SnsAPI21=1
-set SnsAPI25=1
-set SnsAPI26=1
-set SnsAPI-Support=1
 set sysusr=This name is reserved by system.
 if not exist SnsHelper.vbs (
 echo [%date% %time%] SNS-DOS wasn't booted because SnsHelper.vbs doesn't exist.>>SNS-DOS.log
 exit
 )
-echo Starting SNS-DOS...
 goto named
 
 :bootsns
 echo           -=SNS-DOS=-  -=%name%=-
 if "%src%"=="dsc" (echo SNS-DOS Original)
 if "%src%"=="git" (echo SNS-DOS)
-echo Version 0.8.0
-echo SNS-DOS Console [Version 1.0.2000.100]
+echo Version 0.8.1
+echo SNS-DOS Console [Version 1.0.2003.1]
 echo [%date% %time%] SNS-DOS is started!>>SNS-DOS.log
 goto sns-dos
 
@@ -218,7 +183,7 @@ if "%command%"=="snsdisk" (goto files)
 if "%command%"=="snstasks" (goto tasks)
 if "%command%"=="snsvm" (goto snsvm)
 if "%command%"=="beta" (goto beta)
-if "%command%"=="echo" (goto textout)
+if "%command%"=="network" (goto networking)
 echo Unknown command. Try 'help' to find required command.
 goto sns-dos
 
@@ -280,7 +245,8 @@ if "%errorlevel%"=="3" (
     echo theme - Theme changer (default: light)
     echo snstasks - Built-in Task Manager
     echo snsdisk - Built-in SnsFiles app
-    echo snsvm - SnsVM (Beta)
+    echo snsvm - SnsVM
+    echo network - WebSNS (Beta)
     echo     -=SNS-DOS Build %SnsBuild%.%SnsSubBuild%=-
     goto sns-dos
 )
@@ -325,37 +291,6 @@ if "%src%"=="dsc" (echo   -=Install source: SNS-DOS Installer in Project SNS=-)
 if "%src%"=="git" (echo   -=Install source: SNS-DOS Installer [3rd party or GitHub]=-)
 echo   -=SnsUI=-
 echo    -=SnsVer version: 1.2=-
-goto sns-dos
-
-:AppMgr
-if "%SnsAppMgr%"=="1" (
-    echo      -=SnsUI / Outdated AppMgr=-
-    echo You can start SNS-DOS program using .sns file.
-    echo Drag .sns file to sns_eng folder, & echo enter program name and program starts
-    set ProgName=
-    set /p ProgName=File:
-    echo Warning: this is outdated app. Use 'run'.
-    echo SnsAppMgr will be removed in SNS-DOS 0.8.1 
-    echo Please, wait.
-    ping 127.0.0.1>nul
-    if exist %ProgName%.sns (
-        ren %ProgName%.sns %ProgName%.cmd
-        echo Warning: SNS-DOS 0.8.0 is the latest SNS-DOS
-        echo version with outdated AppMgr. SNS-DOS 0.8.0.x
-        echo will also have AppMgr. In SNS-DOS 0.8.2, SnsApps
-        echo will replace AppMgr. 
-        echo [%date% %time%] Started %ProgName%.>>SNS-DOS.log
-        start %ProgName%.cmd
-        goto sns-dos
-    ) else (
-        echo Not found %ProgName%. If you're entered this with 1st try, it is a bug.
-        echo Just re-open AppMgr and enter something.
-        echo [%date% %time%] Not found %ProgName%. It is bug or file wasn't found.>>SNS-DOS.log
-        goto sns-dos
-    )
-    goto sns-dos
-)
-echo SnsApi.AppMgr wasn't found.
 goto sns-dos
 
 :random
@@ -432,6 +367,7 @@ if "%SnsCode%"=="SnsHelp" (echo SnsExit - Exit from SnsUI Codes)
 if "%SnsCode%"=="SnsExit" (goto sns-dos)
 if "%SnsCode%"=="SnsSudo" (echo No command found)
 if "%SnsCode%"=="Sns1stAnniversary" (echo Happy 1st SNS-DOS Anniversary! & echo The first SNS-DOS version is 0.6.0. & echo Now, latest version is %SnsVer%. & echo Thanks for supporting SNS-DOS!)
+if "%SnsCode%"=="Sns2ndAnniversary" (echo Thanks for 2 years of using SNS-DOS! & echo Did you know that there's only 2 major updates? & echo So, if you want to contribute some work, just send some ideas and feedback! & echo That will help us making SNS-DOS better.)
 if "%SnsCode%"=="SnsTime" (goto date)
 if "%SnsCode%"=="SnsInstallBonus" (echo You've got a 1000 SnsCoins code! & echo Code: V5SA-CM3Q-ODEM-55FK)
 if "%SnsCode%"=="SnsFilledGrill" (echo You've got a gift code! & echo Code: M56K-V309-3C95-CRT1)
@@ -455,6 +391,7 @@ if "%SnsCode%"=="sns/sns" (set ErrName=MemDmg & goto critical)
 goto code
 
 :files
+if "%SnsDisk%"=="1" (echo WARNING! Still in development.) else (echo In Development & goto sns-dos)
 echo     -=SnsUI / SnsDisk Files=-
 echo Drives:
 echo     -=1 - S: / System Data=-
@@ -489,12 +426,65 @@ if "%errorlevel%"=="1" (
         echo     -=SnsUI / SnsDisk Files=-
         echo Location: S:/SnsApps
         echo Apps:
+        echo SnsDisk can't read UiConsole.sns file.
+        set ErrName=UNACCEPTABLE_FILE
+        goto critical
         echo     -= 1 - SnsVM / Size: 768 KB =-
         echo     -= 2 - Console / Size: 512 KB =-
         echo     -= 3 - SnsTools / Size: 384 KB =-
         echo     -= 4 - SnsAPI / Size: 4096 KB =-
+        echo     -= 5 - System / Size: 16384 KB =-
+        choice /c 12345 /n /m Selected:
+        if "%errorlevel%"=="1" (set File=SnsUI.sns & goto files_sel)
+        if "%errorlevel%"=="2" (set File=SnsUI.cfg & goto files_sel)
+        if "%errorlevel%"=="3" (set File=UiProvider.sns & goto files_sel)
+        if "%errorlevel%"=="4" (set File=Critical.sns & goto files_sel)
+        if "%errorlevel%"=="5" (set File=Critical.sns & goto files_sel)
     )
-    goto InBeta
+    if "%errorlevel%"=="3" (
+        echo     -=SnsCore / SnsDisk Files=-
+        echo Location: S:/SnsCore
+        echo Files:
+        echo 1000+ (80% corrupted)
+        echo SnsDisk can't read NAND RAM (4).
+        set ErrName=UNACCEPTABLE_FILE
+        goto critical
+    )
+    if "%errorlevel%"=="4" (
+        echo     -=SNS-DOS / SnsDisk Files=-
+        echo Location: S:/SNS-DOS
+        echo Files:
+        echo SnsDisk can't read MSYSXQ2.SO8.
+        set ErrName=UNACCEPTABLE_FILE
+        goto critical
+    )
+    if "%errorlevel%"=="5" (
+        echo     -=%name% / SnsDisk Files=-
+        echo Location: S:/%name%
+        echo Files:
+        echo     -= 1 - Cfg / Size: 4 KB =-
+        echo     -= 2 - SnsNet / Size: 8 KB =-
+        echo     -= 3 - UiCfg / Size: 4 KB =-
+        echo     -= 4 - Cache / Size: 512 KB =-
+        set ErrName=UNACCEPTABLE_FILE
+        goto critical
+        echo     -= 5 - Unknown / Size: ? KB =-
+        choice /c 12345 /n /m Selected:
+        if "%errorlevel%"=="1" (set File=cfg.sns & goto files_sel)
+        if "%errorlevel%"=="2" (set File=SnsNet.cfg & goto files_sel)
+        if "%errorlevel%"=="3" (set File=UiCfg.sns & goto files_sel)
+        if "%errorlevel%"=="4" (set File=cache.sns & goto files_sel)
+        if "%errorlevel%"=="5" (set File=NoFile.sns & goto files_sel)
+    )
+    if "%errorlevel%"=="6" (
+        echo      -=%name% / SnsDisk Files=-
+        echo Location: Ukraine
+        echo Keyboards:
+        echo      -= 1 - SnsNetworking / Module: errorlevel =-
+        set ErrName=UNACCEPTABLE_FILE
+        :: Why not?
+        goto critical
+    )
 )
 if "%errorlevel%"=="2" (
     echo     -=SnsUI / SnsDisk Files=-
@@ -526,13 +516,17 @@ if "%errorlevel%"=="2" (goto files_move)
 if "%errorlevel%"=="3" (goto files_run)
 
 :files_del
-goto InBeta
+set ErrName=UNACCEPTABLE_FILE
+goto critical
 
 :files_move
-goto InBeta
+set ErrName=UNACCEPTABLE_FILE
+goto critical
 
 :files_run
 if "%File%"=="pagesns.sns" (goto rewrite_mem)
+echo Error! This file is not an executable or not allowed to start.
+echo Or, this file still isn't implemented.
 goto files_run
 
 :rewrite_mem
@@ -574,6 +568,7 @@ echo SnsTools memory is partially overwrited.
 SnsHelper.vbs /SnsUiCooldown
 SnsHelper.vbs /SnsUiCooldown
 SnsHelper.vbs /SnsUiCooldown
+:: That cooldowns...
 SnsHelper.vbs /SnsUiCooldown
 SnsHelper.vbs /SnsUiCooldown
 echo [XXXXXXXXX ]
@@ -584,7 +579,7 @@ set ErrName=MemDmg
 goto critical
 
 :snsvm
-echo       -=SnsVM 0.3 / Menu=-
+echo       -=SnsVM 0.4 / Menu=-
 echo Select virtual machine:
 echo    -=1 - SNS-DOS 0.6.0=-
 echo    -=2 - SNS-DOS 0.7.0=-
@@ -594,11 +589,11 @@ if "%errorlevel%"=="2" (goto snsvm_waterlight)
 
 :snsvm_glowfire
 echo       -=SnsVM / VM: SNS-DOS 0.6.0=-
-echo Do you wanna start SNS-DOS 0.6.0?
+echo Do you want to start SNS-DOS 0.6.0?
 echo Configuration:
-echo CPU: Custom 199 MHz Pentium CPU with 2 MB RAM
-echo GPU: Custom 3 MB GF GPU
-echo Storage: 6 MB drive
+echo CPU: Custom 300 MHz Pentium CPU with 8 MB RAM
+echo GPU: Custom 6 MB GF GPU
+echo Storage: 20 MB drive
 echo    -=Y - Yes / N - No=-
 set VmCode=glowfire
 choice /n /m SnsUI.RenderText.SelYn:
@@ -609,9 +604,10 @@ if "%errorlevel%"=="2" (echo Good luck! & goto sns-dos)
 echo       -=SnsVM / VM: SNS-DOS 0.7.0=-
 echo Do you wanna start SNS-DOS 0.7.0?
 echo Configuration:
-echo CPU: Custom 199 MHz Pentium CPU with 2 MB RAM
-echo GPU: Custom 3 MB GF GPU
-echo Storage: 6 MB drive
+echo CPU: Custom 300 MHz Pentium CPU with 8 MB RAM
+echo GPU: Custom 6 MB GF GPU
+:: Don't read this.
+echo Storage: 20 MB drive
 echo    -=Y - Yes / N - No=-
 choice /n /m SnsUI.RenderText.SelYn:
 set VmCode=waterlight
@@ -620,7 +616,7 @@ if "%errorlevel%"=="2" (echo Good luck! & goto sns-dos)
 
 :vmboot
 echo       [SnsVM BIOS 1.00]
-echo CPU: Intel Core 0000 199 MHz
+echo CPU: KMU Qews 298 MHz
 echo %VmCode%
 echo Press [D]el to start BIOS.
 echo Press [F]8 to start Boot Menu.
@@ -629,36 +625,59 @@ if "%errorlevel%"=="1" (goto vmbios)
 if "%errorlevel%"=="2" (goto vmbootmenu)
 
 :vmbios
-echo [SnsVM BIOS Setup v1.00 x32]
-echo CPU: Intel Core 0000 199 MHz
-echo RAM: 2048 KB [available: 1920 KB]
-echo ROM: 6144 KB
-echo GPU: NVIDIA GeForce 3 MB Series
+echo [SnsVM BIOS Setup v1.02 x32]
+echo CPU: 32-bit KMU CPU (299 MHz)
+echo RAM: 8192 KB [available: 6144 KB]
+echo ROM: 20480 KB [available: 16384 KB]
+echo GPU: DX9 KMU GPU (6 MB VRAM)
 echo UserData: %name%
 echo [1 - Start Boot Menu ]
 echo [2 - Reboot          ]
 echo [3 - Compatibility   ]
-choice /c 123 /n
+echp [4 - Link to devices ]
+choice /c 1234 /n
 if "%errorlevel%"=="1" (goto vmbootmenu)
 if "%errorlevel%"=="2" (goto vmboot)
 if "%errorlevel%"=="3" (
-    echo [SnsVM BIOS Setup v1.00 x32]
+    echo [SnsVM BIOS Setup v1.02 x32]
     echo SnsVM BIOS is compatible with:
-    echo SNS-DOS up to 0.7.5
+    echo SNS-DOS up to 0.7.7
     echo Windows up to 5.1
+    echo SnsNetwork: 1.0 Prototype
+    echo Status: NOT_INSTALLED
+)
+if "%errorlevel%"=="4" (
+    echo [SnsVM BIOS Setup v1.02 x32]
+    echo Available devices:
+    echo SnsVR
+    echo UiController
+    echo SnsTea 270 Gamepad
+    echo Minicamp Window 14
+    SnsHelper.vbs /SnsUiCooldown
+    SnsHelper.vbs /SnsUiCooldown
+    SnsHelper.vbs /SnsUiCooldown
+    echo Connecting...
+    SnsHelper.vbs /SnsUiCooldown
+    SnsHelper.vbs /SnsUiCooldown
+    SnsHelper.vbs /SnsUiCooldown
+    SnsHelper.vbs /SnsUiCooldown
+    SnsHelper.vbs /SnsUiCooldown
+    SnsHelper.vbs /SnsUiCooldown
+    echo Unsuccess. Device is not recognized.
+    goto vmbios
 )
 goto vmbios
 
 :vmbootmenu
 echo [SnsVM Boot Menu v1.00]
 if "%VmCode%"=="glowfire" (
-    echo Booting 4 MB SnsDrive
+    echo Booting 20 MB SnsDrive
     SnsHelper.vbs /SnsUiCooldown
     echo Starting SNS-DOS...
     goto vmsnsboot_glowfire
 )
 if "%VmCode%"=="waterlight" (
-    echo Booting 6 MB SnsDrive
+    echo Booting 20 MB SnsDrive
     SnsHelper.vbs /SnsUiCooldown
     SnsHelper.vbs /SnsUiCooldown
     echo Starting SNS-DOS...
@@ -669,10 +688,10 @@ goto vmbootmenu
 :vmsnsboot_glowfire
 echo SNS PC
 set VmSnsCPU=SNS Other CPU
-set VmSnsRAM=2 MB
-set VmSnsROM=4 MB
+set VmSnsRAM=8 MB
+set VmSnsROM=20 MB
 set VmSnsVCard=SNS Other GPU
-set VmSnsVRAM=2 MB
+set VmSnsVRAM=6 MB
 set VmSnsVer=0.6.0
 set VmBuild=385
 echo [SnsVM]
@@ -711,10 +730,9 @@ goto vmsns_glowfire
 :vmsnsboot_waterlight
 set VmSnsVer=0.7.0
 set VmSnsBuild=501
-set VmSnsEasterEggVer=SNS-OS 1.01
-set vmlastnews=Обновление SNS-DOS 0.7.0: переделка ядра ОС!
 set VmSnsVerAPI=1.01
 echo Starting SNS-DOS...
+:: Do you remember SNS-OS?
 SnsHelper.vbs /SnsUiCooldown
 echo [SnsVM Info]
 echo File checker is disabled.
@@ -748,7 +766,6 @@ goto vmsns_waterlight
 if "%command%"=="cmd" (start cmd.exe & goto vmsns_waterlight)
 if "%command%"=="taskmgr" (start taskmgr.exe & goto vmsns_waterlight)
 if "%command%"=="time" (echo Дата: %date% & echo Время: %time% & goto vmsns_waterlight)
-if "%command%"=="news" (echo %vmlastnews% & goto vmsns_waterlight)
 if "%command%"=="run" (
 echo SNS-DOS can run files from directories.
 echo Enter destioantion of folder and file to open file.
@@ -805,12 +822,13 @@ echo SnsCode
 goto sns-dos
 
 :snsplus
-echo       -=SNS+ Menu=-
-echo SnsPlus features:
-echo More customization
-echo More animations
+echo       -=Booster Menu=-
+echo Booster features:
+echo More customization options
+echo More builds
 echo Early feature releases
-echo Includes SNS-DOS theme
+echo Includes additional content
+goto sns-dos
 
 :critical
 echo.
