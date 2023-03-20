@@ -1,4 +1,4 @@
-set src=dsc
+set src=git
 set updSnsAPI=True
 rem updSnsAPI - Updated SnsAPI
 rem Don't touch this variable.
