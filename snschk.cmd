@@ -5,8 +5,8 @@ if "%1"=="NoSysChk" (goto soft)
 
 :all
 set snsupdatever=1.0
-set SnsLatestBuild=2000
-set SnsLatestVer=0.8.0
+set SnsLatestBuild=2001
+set SnsLatestVer=0.8.0a
 set snsupdbuild=500
 set snsdos_updatepath="%appdata%\SNS-DOS\sns_eng\SnsUpdate\SNS-DOS"
 echo In development
@@ -14,8 +14,8 @@ pause
 
 :sys
 set snsupdatever=1.0
-set SnsLatestBuild=2000
-set SnsLatestVer=0.8.0
+set SnsLatestBuild=2001
+set SnsLatestVer=0.8.0a
 set snsupdbuild=500
 set snsdos_updatepath="%appdata%\SNS-DOS\sns_eng\SnsUpdate\SNS-DOS"
 echo In development
