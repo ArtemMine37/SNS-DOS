@@ -1,5 +1,7 @@
 # SNS-DOS
-SNS-DOS is "OS" like MS-DOS, but SNS-DOS have more than nothing.
+SNS-DOS is the command-line "OS", that is designed differently.
+As example - SnsVM that runs SNS-DOS on SNS-DOS.
+Or, themes or time?
 # How to install SNS-DOS?
 Instruction how to install SNS-DOS:
 For SNS-DOS 0.8.0+:
@@ -12,4 +14,4 @@ For SNS-DOS 0.8.0+:
 2. Enter something.
 3. Now, SNS-DOS is started!
 # Updates
-SnsUpdate is in development.
+SnsUpdate provides updates for components and SNS-DOS. SNS-DOS 0.8.1 will get component updating, so, you will be able to update any system components.
