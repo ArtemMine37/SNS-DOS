@@ -9,12 +9,16 @@ rem Added Boot Menu
 rem Added SNS-DOS Verison Check
 rem Added color support
 rem Moved SnsUpdate into SNS-DOS
+:: SnsBoot 1.2.1-1.2.5
+:: - Removed color support, and...
+:: we made SnsBIOS
+echo [SnsBIOS v1.10]
 echo                     =SNS-DOS=
 echo Booting up...
 
 :boot
 if exist y (
-cd sns_eng
+cd snsui
 sns_en.cmd /Native
 ) else (
 goto oobe
@@ -22,6 +26,9 @@ goto oobe
 
 :oobe
 echo     -=Random Text=-
+cd snsui
+md SnsUpdate
+cd..
 echo SNS-DOS - OS, that can be used for:
 echo - Fun, experiments, and, even, INTERACTION!
 echo Also, SnsUI helps making SNS-DOS more fancy.
