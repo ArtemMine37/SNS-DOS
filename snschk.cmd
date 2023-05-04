@@ -1,4 +1,5 @@
 if "%UpdVer%"=="0.8.0" (goto Update)
+if "%UpdVer%"=="0.8.1" (goto NonExistedVer)
 if "%1"=="ChkAll" (goto all)
 if "%1"=="ChkSys" (goto sys)
 if "%1"=="NoSysChk" (goto soft)
