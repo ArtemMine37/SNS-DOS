@@ -1,4 +1,4 @@
-set src=dsc
+set src=git
 set updSnsAPI=True
 rem updSnsAPI - Updated SnsAPI
 rem Don't touch this variable.
@@ -32,7 +32,7 @@ set SnsAPI26=1
 set SnsAPI-Support=1
 rem SnsUI, SNS-DOS and SnsAPI versions
 set SnsVer=0.8.1 Alpha
-set SnsBuild=2010
+set SnsBuild=2035
 set SnsSubBuild=1
 set ApiLibVer=2.7
 rem SnsUI Settings (including experimental functions)
