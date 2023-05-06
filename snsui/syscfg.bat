@@ -1,4 +1,4 @@
-set src=git
+set src=dsc
 set updSnsAPI=True
 rem updSnsAPI - Updated SnsAPI
 rem Don't touch this variable.
@@ -8,13 +8,6 @@ set SnsUpdInst=SNS-DOS Experience
 set ApiVariables=2
 :: Placeholder
 set ApiGUI=SnsUI
-:: Cleanup Zone Start
-set ApiSnsUI=2
-set ApiSnsDisk=2
-set ApiSnsVM=2
-set ApiSnsScripting=2
-set SnsLogger=2
-:: Cleanup Zone End
 set SnsPlayer=2
 set ApiIf=2
 set ApiExOption=1
@@ -32,9 +25,9 @@ set SnsAPI26=1
 set SnsAPI-Support=1
 rem SnsUI, SNS-DOS and SnsAPI versions
 set SnsVer=0.8.1 Alpha
-set SnsBuild=2035
+set SnsBuild=2050
 set SnsSubBuild=1
-set ApiLibVer=2.7
+set ApiLibVer=2.7.1
 rem SnsUI Settings (including experimental functions)
 set SnsUiEnabled=1
 set SnsDisk=1
@@ -113,6 +106,8 @@ set windowtype=std
 :: Compatibility check
 :: SnsHelper 0.3
 :: - New warnings
+:: - New Critical window
 :: Configuring hardware
 :: !NEW! Settings
 :: !NEW! Custom Localization
+:: !NEW! Reworked SnsVM and Critical to improve UX.

@@ -8,6 +8,8 @@ if "%1"=="old" (
 goto eof
 
 :SnsUI_CreateButtonStyle
+:: Placeholder
+goto eof
 
 :SnsUI_CreateDescStyle
 if "%1"=="std" (
