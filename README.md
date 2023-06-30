@@ -1,7 +1,8 @@
 # SNS-DOS
 SNS-DOS is the command-line "OS", that is designed differently.
 As example - SnsVM that runs SNS-DOS on SNS-DOS.
-Or, themes or time?
+And, themes or time?
+Well, this project is originally intended for Windows.
 # How to install SNS-DOS?
 Instruction how to install SNS-DOS:
 For SNS-DOS 0.8.0+:
