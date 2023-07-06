@@ -40,7 +40,7 @@ Sub Window1()
 End Sub
 
 Sub Window2()
-    MsgBox "SNS-DOS is partially supported by Windows Vista-8.1, but some features will be disabled due to new tools in Windows 10.",64,"SNS-DOS Compatibility"
+    MsgBox "SNS-DOS is partially supported by Windows Vista-8.1, but you may need a patch to be able to update SNS-DOS.",64,"SNS-DOS Compatibility"
 End Sub
 
 Sub Window3()
@@ -48,7 +48,7 @@ Sub Window3()
 End Sub
 
 Sub Window4()
-    MsgBox "This Windows 10 version is supported (LTSB or LTSC), but we still recommend upgrading to the latest version (20H1 and later). You can still use SNS-DOS without limits.",48,"SNS-DOS Compatibility"
+    MsgBox "This Windows 10 version is supported (LTSB or LTSC), but we still recommend upgrading to the latest version (20H1 and later). You can still use SNS-DOS, but the patch is still needed.",48,"SNS-DOS Compatibility"
 End Sub
 
 Sub Window5()
@@ -73,38 +73,24 @@ Sub UiCrash()
         Case vbYes
             sns.Run "sns_en.cmd /Native", 1, False
         Case vbNo
-            WScript.Echo "Damn..."
+            WScript.Sleep 100
     End Select
 End Sub
 
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
-' Used to fill VBS file (to stabilise size increases)
+Sub UiUpdateAvailable()
+    strText = "SnsUpdate found new SNS-DOS update." & Chr(13)
+    strText = strText & "Do you want to install new update for SNS-DOS?"
+    strTitle = "SnsUpdate"
+    intType = vbYesNo + vbQuestion
+    intResult = sns.Popup(strText, ,strTitle, intType)
+    Select Case intResult
+        Case vbYes
+            sns.Run "snsupdate.cmd /FastUpgrade", 1, False
+        Case vbNo
+            WScript.Sleep 100
+    End Select
+End Sub
+
 ' Used to fill VBS file (to stabilise size increases)
 ' Used to fill VBS file (to stabilise size increases)
 ' Used to fill VBS file (to stabilise size increases)

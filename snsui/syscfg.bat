@@ -1,5 +1,5 @@
-set src=git
-set updSnsAPI=True
+set src=dsc
+set updSnsAPI=False
 rem updSnsAPI - Updated SnsAPI
 rem Don't touch this variable.
 set ApiLibEnable=1
@@ -24,11 +24,12 @@ set SnsAPI25=1
 set SnsAPI26=1
 set SnsAPI-Support=1
 rem SnsUI, SNS-DOS and SnsAPI versions
-set SnsVer=0.8.1 Alpha
+set SnsVer=0.8.1 beta
 set SnsBuild=2050
 set SnsSubBuild=1
-set ApiLibVer=2.7.1
+set ApiLibVer=2.7.2
 rem SnsUI Settings (including experimental functions)
+set EasterEggVer=1.6
 set SnsUiEnabled=1
 set SnsDisk=1
 set SnsVM=1
@@ -36,15 +37,15 @@ set SnsScripting=1
 set SnsLogger=1
 set UiRender=Std
 set UiSysChk=1
-set UiSnsGpu=KMU Fidelity 4700X
-set UiSnsGrphXGpu=KMU Fidelity 4700X4D
-set SnsVram=32 MB
-set SnsGVram=40 MB
-set SnsCpu=Mediatech Meleo X575 @ 750 MHz
-set SnsRam=60 MB
-set SnsRom=320 MB
+set UiSnsGpu=KMU Fidelity 4750X
+set UiSnsGrphXGpu=KMU Fidelity 4750X4D
+set SnsVram=36 MB
+set SnsGVram=44 MB
+set SnsCpu=Mediatech Meleo X585 @ 800 MHz
+set SnsRam=72 MB
+set SnsRom=400 MB
 rem Windows Version check
-rem A reminder to upgrade to Windows 10 1903+
+rem A reminder to upgrade to Windows 10 1809+
 ver | findstr /i "6\.0\." > nul
 if %ERRORLEVEL% EQU 0 (set WinVerChk=Vista & SnsHelper.vbs /WinIsEOL_Partial)
 ver | findstr /i "6\.1\." > nul
@@ -68,7 +69,7 @@ if %ERRORLEVEL% EQU 0 (set WinVerChk=10 Version 1709 & SnsHelper.vbs /OldWinX)
 ver | findstr /i "10\.0\.17134\." > nul
 if %ERRORLEVEL% EQU 0 (set WinVerChk=10 Version 1803 & SnsHelper.vbs /OldWinX)
 ver | findstr /i "10\.0\.17763\." > nul
-if %ERRORLEVEL% EQU 0 (set WinVerChk=10 Version 1809 & SnsHelper.vbs /OldWinX)
+if %ERRORLEVEL% EQU 0 (set WinVerChk=10 Version 1809)
 ver | findstr /i "10\.0\.18362\." > nul
 if %ERRORLEVEL% EQU 0 (set WinVerChk=10 Version 1903)
 ver | findstr /i "10\.0\.18363.\" > nul
@@ -86,12 +87,13 @@ echo [%date% %time%] OS: %SysFullName%>>SNS-DOS.log
 :: These apps are unstable.
 set UnlockSettings=1
 set UnlockLocalizer=0
-set UnlockSnsFiles=1
+set UnlockSnsFiles=0
 set UnlockNetwork=0
 set UnlockTowergen=1
 set windowtype=std
 :: SNS-DOS 0.8.1
 :: Changelog:
+:: !NEW! Windows version detection!
 :: !NEW! Config file!
 :: !REVAMP! Login screen setup!
 :: Optimized & integrated SnsUpdate, so there's
@@ -99,9 +101,6 @@ set windowtype=std
 :: !FIX! Fixed corrupted installer
 :: !INSTALLER! Upgrade option.
 :: New features for SnsUI & SnsAPI
-:: Upcoming: translations to 4 languages
-:: (Ukrainian, Polish, German and French)
-:: SnsNetworking Alpha (only SnsExperiments!)
 :: SnsBoot 1.2 & SnsUpdate 1.0 Revamp
 :: Compatibility check
 :: SnsHelper 0.3
@@ -111,3 +110,4 @@ set windowtype=std
 :: !NEW! Settings
 :: !NEW! Custom Localization
 :: !NEW! Reworked SnsVM and Critical to improve UX.
+:: !TIP! New secret code has been added.

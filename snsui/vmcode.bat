@@ -3,6 +3,7 @@ if "%1"=="2" (goto SetVmCodeTwo)
 if "%1"=="3" (goto SetVmCodeThree)
 if "%1"=="4" (goto SetVmCodeFour)
 if "%1"=="5" (goto SetVmCodeFive)
+if "%1"=="6" (goto SetVmCodeSix)
 
 
 :SetVmCodeOne
@@ -28,6 +29,11 @@ goto eof
 :SetVmCodeFive
 set VmCode=airshot
 set VmName=SNS-DOS 0.7.7
+goto eof
+
+:SetVmCodeSix
+set VmCode=slapshit
+set VmName=SnsUI
 goto eof
 
 

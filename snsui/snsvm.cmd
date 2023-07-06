@@ -1,4 +1,5 @@
 :snsvm
+if "%SnsAPI2%"=="0" (goto nodirectrun)
 if "%SnsVM%"=="1" (
     title -=SnsVM 0.4 / Choice Menu=-
     echo       -=SnsVM 0.4 / Menu=-
@@ -464,6 +465,9 @@ goto snsvm_airshot
 
 
 
+:nodirectrun
+echo This file is not supported.
+pause & exit
 
 
 :eof

@@ -19,7 +19,7 @@ echo Starting emulator...
 echo Starting SnsAPI emulation...
 ping 127.0.0.1>nul
 echo Starting SnsBoot [1 phase]
-echo %col%[42m     -=SNS-DOS is starting...=-
+echo      -=SNS-DOS is starting...=-
 echo [%date% %time%] Started SnsBoot and services.>>SNS-DOS.log
 echo Started SnsDisk service
 echo Started SnsReg service
@@ -150,6 +150,8 @@ if "%src%"=="git" (echo SNS-DOS)
 echo Version 0.8.1
 echo SNS-DOS Console [Version 1.0.%SnsBuild%]
 echo [%date% %time%] SNS-DOS is started!>>SNS-DOS.log
+echo.
+echo Hi there in SNS-DOS, %name%!
 goto sns-dos
 
 :sns-dos
@@ -168,12 +170,9 @@ if "%command%"=="quit" (exit)
 if "%command%"=="SnsAPI.System.Shutdown" (goto exit)
 if "%command%"=="about" (goto snsver)
 if "%command%"=="snsver" (goto snsver)
-if "%command%"=="SnsAPI.SnsSettings.AboutSystem" (goto snsver)
 if "%command%"=="ver" (goto snsver)
 if "%command%"=="random" (goto random)
 if "%command%"=="SnsAPI.Random" (goto random)
-if "%command%"=="theme" (goto theme)
-if "%command%"=="SnsAPI.SnsSettings.SelectTheme" (goto theme)
 :: End?..
 if "%command%"=="cmd" (start cmd.exe & goto sns-dos)
 if "%command%"=="taskmgr" (start taskmgr.exe & echo Sended command to host. & goto sns-dos)
@@ -181,7 +180,7 @@ if "%command%"=="time" (goto date)
 if "%command%"=="news" (echo %lastnews% & goto sns-dos)
 if "%command%"=="run" (goto run)
 if "%command%"=="start" (goto run)
-if "%command%"=="update" (echo Now, SNS-DOS Update in the SNS-DOS boot file. & goto sns-dos)
+if "%command%"=="update" (snsupdate.cmd & goto sns-dos)
 if "%command%"=="reboot" (echo Rebooting... & sns_en.cmd)
 if "%command%"=="SnsCode" (goto code)
 if "%command%"=="snscode" (goto code)
@@ -191,7 +190,6 @@ if "%command%"=="snsdisk" (goto files)
 if "%command%"=="snstasks" (goto tasks)
 if "%command%"=="snsvm" (goto snsvm)
 if "%command%"=="beta" (goto beta)
-if "%command%"=="network" (goto networking)
 if "%command%"=="SnsSettings" (goto settings)
 if "%command%"=="Snssettings" (goto settings)
 if "%command%"=="snsSettings" (goto settings)
@@ -220,16 +218,18 @@ if "%UnlockSettings%"=="1" (
     set titlename=Settings
     call SnsUiEngine.cmd std
     echo The most modern SNS-DOS setup app ever!
-    echo      -=1 / Network=-
+    echo      -=1 / Network=-  -=5 / Codes=-
     echo      -=2 / System=-
     echo      -=3 / Themes=-    
     echo      -=4 / SNS-DOS=-
     echo                          -=0 / Exit=-
-    choice /c 12340 /n
+    choice /c 123450 /n
     if "%errorlevel%"=="1" (goto network_setup)
     if "%errorlevel%"=="2" (goto sys_setup)
     if "%errorlevel%"=="3" (goto theme)
     if "%errorlevel%"=="4" (goto snsver)
+    if "%errorlevel%"=="5" (goto code)
+    if "%errorlevel%"=="6" (goto sns-dos)
 ) else (goto InBeta)
 
 :run
@@ -318,12 +318,12 @@ echo   -=Build: %SnsBuild%.%SnsSubBuild%=-
 echo  -=SnsAPI=-
 echo   -=Version: %ApiLibVer%.%SnsBuild%=-
 echo   -=Status: %SnsApiStatus%=-
-echo   -=Verify status: Fail - No SnsAPI Execute Code=-
+echo   -=Verify status: Fail - No SnsAPI myCow Code=-
 echo  -=SnsUI=-
-echo   -=Version: 1.0.0b27=-
-echo   -=Pre-release=-
+echo   -=Version: 1.0=-
+echo   -=Release Candidate=-
 echo -=Stable Release=-
-echo -=Released: 01.05.2023=-
+echo -=Released: 01.07.2023=-
 echo        -=x - Back=-
 echo        -=a - Advanced Info=-
 choice -c xa -n
@@ -331,7 +331,8 @@ if "%errorlevel%"=="1" (goto settings)
 if "%errorlevel%"=="2" (goto AdvSNS)
 
 :AdvSNS
-echo     -=SnsUI / About SNS-DOS=-
+set titlename=About SNS-DOS
+call SnsUiEngine.cmd std
 echo  -=Updates=-
 echo   -=Update ID: %SnsBuild%=-
 echo   -=Installed update: %SnsUpdInst%=-
@@ -366,7 +367,7 @@ goto sns-dos
 set titlename=WARNING
 call SnsUiEngine.cmd std
 echo This command is disabled.
-echo We are developing this feature, but protected agaisnt:
+echo We are developing this feature, but also protecting agaisnt:
 echo 1] system corruption
 echo 2] tons of bugs
 :: echo 3] russia and belarus ;)
@@ -393,7 +394,7 @@ if "%errorlevel%"=="5" (color 08)
 goto sns-dos
 
 :date
-set titlename=Date'n Time
+set titlename=Date 'n Time
 call SnsUiEngine.cmd std
 echo  -=Date: %date%=-   -=Time: %time%=-
 echo.
@@ -481,20 +482,17 @@ if "%errorlevel%"=="1" (
         echo     -=SnsUI / SnsDisk Files=-
         echo Location: S:/SnsApps
         echo Apps:
-        echo SnsDisk can't read UiConsole.sns file.
-        set ErrName=UNACCEPTABLE_FILE
-        goto critical
         echo     -= 1 - SnsVM / Size: 768 KB =-
         echo     -= 2 - Console / Size: 512 KB =-
         echo     -= 3 - SnsTools / Size: 384 KB =-
         echo     -= 4 - SnsAPI / Size: 4096 KB =-
         echo     -= 5 - System / Size: 16384 KB =-
         choice /c 12345 /n /m Selected:
-        if "%errorlevel%"=="1" (set File=SnsUI.sns & goto files_sel)
-        if "%errorlevel%"=="2" (set File=SnsUI.cfg & goto files_sel)
-        if "%errorlevel%"=="3" (set File=UiProvider.sns & goto files_sel)
-        if "%errorlevel%"=="4" (set File=Critical.sns & goto files_sel)
-        if "%errorlevel%"=="5" (set File=Critical.sns & goto files_sel)
+        if "%errorlevel%"=="1" (set File=SnsVM.vdi & goto files_sel)
+        if "%errorlevel%"=="2" (set File=ConsoleUI.vdi & goto files_sel)
+        if "%errorlevel%"=="3" (set File=tools.vdi & goto files_sel)
+        if "%errorlevel%"=="4" (set File=ApiFiles.vdi & goto files_sel)
+        if "%errorlevel%"=="5" (set File=core.vdi & goto files_sel)
     )
     if "%errorlevel%"=="3" (
         echo     -=SnsCore / SnsDisk Files=-
@@ -579,8 +577,13 @@ set ErrName=UNACCEPTABLE_FILE
 goto critical
 
 :files_run
-if "%File%"=="pagesns.sns" (goto rewrite_mem)
+if "%File%"=="core.vdi" (set ErrName=IMAGE_IS_CORRUPTED & goto critical)
 if "%File%"=="Critical.sns" (set ErrName=OTHER_SYSTEM_ISSUES & goto critical)
+if "%File%"=="ConsoleUI.vdi" (set ErrName=IMAGE_IS_CORRUPTED & goto critical)
+if "%File%"=="ApiFiles.vdi" (set ErrName=IMAGE_IS_CORRUPTED & goto critical)
+if "%File%"=="tools.vdi" (set ErrName=IMAGE_IS_CORRUPTED & goto critical)
+if "%File%"=="SnsVM.vdi" (set ErrName=IMAGE_IS_CORRUPTED & goto critical)
+if "%File%"=="pagesns.vdi" (goto rewrite_mem)
 echo Error! This file is not an executable or not allowed to start.
 echo Or, this file still isn't implemented.
 goto files_run
@@ -656,18 +659,13 @@ goto tasks
 
 :beta
 echo In beta:
-echo New bootloader with animation
 echo SnsFiles
-echo SnsUI
-echo SnsCode
-echo SnsSettings
-echo SnsVM
-echo SnsCalc
-echo SnsNotepad
-echo New add-on system
-echo New logon
 echo SnsUpdate 1.1
+echo SNS-DOS Next Release Features
 goto sns-dos
+
+:newsfeed
+curl --output "%temp%\snsui.txt" 
 
 :snsplus
 echo       -=Booster Menu=-
@@ -690,9 +688,8 @@ set /a result=%inputcalc%
 echo Result: %result%
 goto calc
 
-:readpad
-set titlename=Calculator
-call SnsUiEngine.cmd %windowtype%
+:readnet
+call SnsUiEngine.cmd refLnk snsNetBrowse
 
 :critical
 echo [%date% %time%] SNS-DOS is shutted down due to error.>>SNS-DOS.log
@@ -705,31 +702,9 @@ echo.
 pause
 
 :: Wow! There's nothing!..
-:: ...but there's 200+ f*cking lines to
+:: ...but there's 150+ f*cking lines to
 :: make SNS-DOS heavier (stabilize size)
 
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
 :: ===========================================================================================================
 :: ===========================================================================================================
 :: ===========================================================================================================
