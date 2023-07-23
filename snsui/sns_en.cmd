@@ -4,6 +4,7 @@ cls
 echo           -=SNS-DOS=-
 echo [%date% %time%] SNS-DOS is in init status.>>SNS-DOS.log
 echo Preparing emulation...
+if "%1"=="/UiCon" (goto sns-dos)
 if "%1"=="/Native" (goto snsboot)
 ping 127.0.0.1>nul
 call syscfg.bat
@@ -101,9 +102,7 @@ echo Building SnsCore... 100%
 echo Starting SnsCore...
 ping 127.0.0.1>nul
 echo           -=SNS-DOS=-  -=%name%=-
-if "%src%"=="dsc" (echo SNS-DOS Original)
-if "%src%"=="git" (echo SNS-DOS)
-echo Version %SnsVer%
+echo SNS-DOS Version %SnsVer%
 echo Compilling SnsCon... 0
 ping 127.0.0.1>nul
 echo Compilling SnsCon... 100
@@ -168,9 +167,9 @@ if "%command%"=="cls" (goto clear)
 if "%command%"=="exit" (exit)
 if "%command%"=="quit" (exit)
 if "%command%"=="SnsAPI.System.Shutdown" (goto exit)
-if "%command%"=="about" (goto snsver)
-if "%command%"=="snsver" (goto snsver)
-if "%command%"=="ver" (goto snsver)
+if "%command%"=="about" (goto refSettings)
+if "%command%"=="snsver" (goto refSettings)
+if "%command%"=="ver" (goto refSettings)
 if "%command%"=="random" (goto random)
 if "%command%"=="SnsAPI.Random" (goto random)
 :: End?..
@@ -194,7 +193,11 @@ if "%command%"=="SnsSettings" (goto settings)
 if "%command%"=="Snssettings" (goto settings)
 if "%command%"=="snsSettings" (goto settings)
 if "%command%"=="snssettings" (goto settings)
+if "%command%"=="settings" (goto settings)
 if "%command%"=="discord" (goto discord)
+if "%command%"=="calc" (goto calc)
+if "%command%"=="calculator" (goto calc)
+if "%command%"=="echo" (goto textout)
 echo Unknown command. Try 'help' to find required command.
 goto sns-dos
 
@@ -209,40 +212,47 @@ goto sns-dos
 :discord
 set titlename=Discord
 call SnsUiEngine.cmd std
-echo Hi there, %name%! Our Discord is:
+echo Project Towergen:
 echo https://discord.gg/2ZkbJPHqJ6
-goto sns-dos 
+choice /n /m "Do you want to open invite link? Y/N:"
+if "%errorlevel%"=="1" (start "" "https://discord.gg/2ZkbJPHqJ6" & goto sns-dos) else (goto sns-dos)
+
 
 :settings
-if "%UnlockSettings%"=="1" (
-    set titlename=Settings
-    call SnsUiEngine.cmd std
-    echo The most modern SNS-DOS setup app ever!
-    echo      -=1 / Network=-  -=5 / Codes=-
-    echo      -=2 / System=-
-    echo      -=3 / Themes=-    
-    echo      -=4 / SNS-DOS=-
-    echo                          -=0 / Exit=-
-    choice /c 123450 /n
-    if "%errorlevel%"=="1" (goto network_setup)
-    if "%errorlevel%"=="2" (goto sys_setup)
-    if "%errorlevel%"=="3" (goto theme)
-    if "%errorlevel%"=="4" (goto snsver)
-    if "%errorlevel%"=="5" (goto code)
-    if "%errorlevel%"=="6" (goto sns-dos)
-) else (goto InBeta)
+set titlename=Settings
+call SnsUiEngine.cmd std
+echo The most modern SNS-DOS setup app ever!
+echo      -=1 / Network=-  -=5 / Codes=-
+echo      -=2 / System=-
+echo      -=3 / Themes=-    
+echo      -=4 / SNS-DOS=-
+echo                          -=0 / Exit=-
+choice /c 123450 /n
+if "%errorlevel%"=="1" (goto netsetup)
+if "%errorlevel%"=="2" (goto snsver)
+if "%errorlevel%"=="3" (goto theme)
+if "%errorlevel%"=="4" (goto snsver)
+if "%errorlevel%"=="5" (goto code)
+goto sns-dos
+
+
+:netsetup
+echo there's something wrong.
+set titlename=Network
+call SnsUiEngine.cmd std
+SnsHelper.vbs /SnsUiCd
+echo fine. you've got the easiest easter egg.
+set Easter1status=Unlocked
+goto sns-dos
 
 :run
 set titlename=RunFile
 call SnsUiEngine.cmd std
-echo Enter directory name to open file.
-set runapp_folder=
-set /p runapp_folder=Directory (example: X:\fldr):
-echo Enter file name to start this file
-set runapp_file=
-set /p runapp_file=File name: 
-echo Starting %runapp_folder%\%runapp_file%...
-start %runapp_folder%\%runapp_file%
+echo Enter file path to open it. Don't use "", it is already used.
+set filepath=
+set /p filepath=File location:
+echo Starting %filepath%...
+start "%filepath%"
 goto sns-dos
 
 :textout
@@ -264,7 +274,9 @@ if "%errorlevel%"=="1" (
     echo help, cmds, ? - help command
     echo about, ver, snsver - About SNS-DOS
     echo beta - Check beta features
+    echo time - Data and time
     echo quit, exit - Exit from SNS-DOS
+    echo echo - type some text and display it
     echo     -=b / Back=-  -=x / Exit=-
     choice /c bx /n
     if "%errorlevel%"=="1" (goto help)
@@ -272,13 +284,14 @@ if "%errorlevel%"=="1" (
 )
 if "%errorlevel%"=="2" (
     echo      -=SnsHelp / System=-
-    echo time - Data and time
     echo cls, clear - Clears the screen
     echo cmd - cmd
     echo taskmgr - taskmgr
     echo update - Update check
     echo random - Random.
     echo news - Some news about SNS-DOS
+    echo calc - just Calculator.
+    echo discord - Discord.
     echo     -=b / Back=-  -=x / Exit=-
     choice /c bx /n
     if "%errorlevel%"=="1" (goto help)
@@ -294,7 +307,7 @@ if "%errorlevel%"=="3" (
     echo snstasks - Built-in Task Manager
     echo snsdisk - Built-in SnsFiles app
     echo snsvm - SnsVM
-    echo network - WebSNS (Beta)
+    echo network - WebSNS (N/A)
     echo     -=SNS-DOS Build %SnsBuild%.%SnsSubBuild%=-
     echo     -=b / Back=-  -=x / Exit=-
     choice /c bx /n
@@ -326,9 +339,11 @@ echo -=Stable Release=-
 echo -=Released: 01.07.2023=-
 echo        -=x - Back=-
 echo        -=a - Advanced Info=-
-choice -c xa -n
+echo        -=e - Easter Eggs=-
+choice -c xae -n
 if "%errorlevel%"=="1" (goto settings)
 if "%errorlevel%"=="2" (goto AdvSNS)
+if "%errorlevel%"=="3" (goto EasterProgress)
 
 :AdvSNS
 set titlename=About SNS-DOS
@@ -345,20 +360,31 @@ echo   -=SnsUI=-
 echo    -=SnsVer version: 1.2=-
 goto sns-dos
 
+:EasterProgress
+echo Easter Egg "I want to surf via SNS-DOS" status: %Easter1status%
+echo Easter Egg "Contributors Research" status: %Easter2status%
+echo Easter Egg "Coming soon" status: %Easter3status%
+echo Easter Egg "Coming Soon" status: %Easter4status%
+echo Easter Egg "Coming Soon" status: %Easter5status%
+echo Easter Egg "Coming Soon" status: %Easter6status%
+echo Easter Egg "Coming Soon" status: %Easter7status%
+echo Easter Egg "Coming Soon" status: %Easter8status%
+echo Easter Egg "Coming Soon" status: %Easter9status%
+echo Easter Egg "Coming Soon" status: %Easter0status%
+goto sns-dos
+
 :random
 set titlename=Random
 call SnsUiEngine.cmd std
-echo Here's 100 random numbers:
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
-echo %random% %random% %random% %random% %random% %random% %random% %random% %random% %random%
+echo Here's 80 random numbers:
+echo %random% %random% %random% %random% %random% %random% %random% %random%
+echo %random% %random% %random% %random% %random% %random% %random% %random%
+echo %random% %random% %random% %random% %random% %random% %random% %random%
+echo %random% %random% %random% %random% %random% %random% %random% %random%
+echo %random% %random% %random% %random% %random% %random% %random% %random%
+echo %random% %random% %random% %random% %random% %random% %random% %random%
+echo %random% %random% %random% %random% %random% %random% %random% %random%
+echo %random% %random% %random% %random% %random% %random% %random% %random%
 goto sns-dos
 :: Did you know, that...
 :: This command is made only for fun?
@@ -671,7 +697,6 @@ curl --output "%temp%\snsui.txt"
 echo       -=Booster Menu=-
 echo Booster features:
 echo More customization options to enable [;],
-echo More builds and portable SNS-DOS versions,
 echo Early feature releases or additional files,
 echo Includes additional content to explore UI,
 echo And hilarious things pre-enabled to update.
@@ -705,20 +730,6 @@ pause
 :: ...but there's 150+ f*cking lines to
 :: make SNS-DOS heavier (stabilize size)
 
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
-:: ===========================================================================================================
 :: ===========================================================================================================
 :: ===========================================================================================================
 :: ===========================================================================================================

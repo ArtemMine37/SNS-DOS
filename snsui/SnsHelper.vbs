@@ -40,11 +40,11 @@ Sub Window1()
 End Sub
 
 Sub Window2()
-    MsgBox "SNS-DOS is partially supported by Windows Vista-8.1, but you may need a patch to be able to update SNS-DOS.",64,"SNS-DOS Compatibility"
+    MsgBox "SNS-DOS is partially supported by Windows Vista with Extended Kernel / Windows 7 SP1 / 8.x, but you may need a patch to be able to update SNS-DOS.",64,"SNS-DOS Compatibility"
 End Sub
 
 Sub Window3()
-    MsgBox "SNS-DOS isn't supported by Windows XP or earlier. You can still use SNS-DOS, but we don't guarantee that SNS-DOS will work stably. We recommend upgrading Windows to at least Windows Vista",16,"SNS-DOS Compatibility"
+    MsgBox "SNS-DOS isn't supported in Windows 7 SP0 / Windows Vista SP0-SP1 / Windows XP or earlier. You can still use SNS-DOS, but we don't guarantee that SNS-DOS will work stably. We recommend upgrading Windows to Windows Vista or install Service Pack.",16,"SNS-DOS Compatibility"
 End Sub
 
 Sub Window4()
@@ -78,14 +78,14 @@ Sub UiCrash()
 End Sub
 
 Sub UiUpdateAvailable()
-    strText = "SnsUpdate found new SNS-DOS update." & Chr(13)
-    strText = strText & "Do you want to install new update for SNS-DOS?"
+    strText = "SnsUpdate has found new SNS-DOS update." & Chr(13)
+    strText = strText & "Do you want to manually install new SNS-DOS update?"
     strTitle = "SnsUpdate"
     intType = vbYesNo + vbQuestion
     intResult = sns.Popup(strText, ,strTitle, intType)
     Select Case intResult
         Case vbYes
-            sns.Run "snsupdate.cmd /FastUpgrade", 1, False
+            sns.Run "snsupdate.cmd /UpgradePage", 1, False
         Case vbNo
             WScript.Sleep 100
     End Select
