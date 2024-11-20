@@ -11,9 +11,9 @@ Basic
 - [ ] Loading
 - [ ] "Emulation" Mode
 - [ ] Login
-- [ ] Typing commands
+- [X] Typing commands
 - [ ] Basic commands (help, clear, exit, echo, random and calc)
-- [ ] Titles
+- [X] Titles
 
 Advanced
 - [ ] SnsUpdate
